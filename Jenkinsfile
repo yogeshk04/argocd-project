@@ -61,7 +61,7 @@ pipeline {
         stage('trigger config change pipeline'){
             steps{
                 script{
-                    sh "curl -v -k -user yogeshk04:11ffe69d6d3b2936d4bdc346a34316c3bd -X POST -H ´cache-control:no-cache´-H ´content-type:application/x-www-form-urlencoded´-data ´IMAGE_TAG=${IMAGE_TAG}´ ´http://3.122.52.199:8080/job/argocd_CD/buildWithParameters?token=argocd-config´"
+                    sh "curl -v -k -user yogeshk04:11ffe69d6d3b2936d4bdc346a34316c3bd -X POST -H ´cache-control: no-cache´ -H ´content-type:application/x-www-form-urlencoded´ -data ´IMAGE_TAG=${IMAGE_TAG}´ ´http://3.122.52.199:8080/job/argocd_CD/buildWithParameters?token=argocd-config´ "
                 }
             }
         }
