@@ -24,7 +24,7 @@ pipeline {
 
             steps{
                 script{
-                    git credentialsId: 'github',
+                    git credentialsId: 'GitHub',
                     url: 'https://github.com/yogeshk04/argocd-project.git',
                     branch: 'master'
                 }
