@@ -24,7 +24,7 @@ pipeline {
 
             steps{
                 script{
-                    git credentialsId: 'GitHub',
+                    git credentialsId: 'github',
                     url: 'https://github.com/yogeshk04/argocd-project.git',
                     branch: 'master'
                 }
@@ -57,31 +57,14 @@ pipeline {
                 }
             }
         }
-        stage('Update k8s deployment file'){
+
+        stage('trigger config change pipeline'){
             steps{
                 script{
-                    sh """
-                    cat deployment.yaml
-                    sed -i 's/${APP_NAME}.*/${APP_NAME}:${IMAGE_TAG}/g' deployment.yaml
-                    cat deployment.yaml
-                    """
+                    sh "curl -v -k -user yogeshk04:11ffe69d6d3b2936d4bdc346a34316c3bd -X POST -H ´cache-control:no-cache´-H ´content-type:application/x-www-form-urlencoded´-data ´IMAGE_TAG=${IMAGE_TAG}´ ´http://3.122.52.199:8080/job/argocd_CD/buildWithParameters?token=argocd-config´"
                 }
             }
         }
-        stage('Push deployment file to Git'){
-            steps{
-                script{
-                    sh """
-                        git config --global user.name "yogeshk04"
-                        git config --global user.email "yogeshk04@gmail.com"
-                        git add deployment.yaml
-                        git commit -m "Updated image version in deployment.yaml file"                        
-                    """
-                    withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]) {
-                    sh "git push https://github.com/yogeshk04/argocd-project.git master"
-                    }
-                }
-            }
-        }
+       
     }
 }
