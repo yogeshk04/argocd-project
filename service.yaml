@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: svc-flask-app
 spec:
+  type: NodePort
   selector:
     app: flask-app
   ports:

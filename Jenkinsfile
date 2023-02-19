@@ -68,5 +68,20 @@ pipeline {
                 }
             }
         }
+        stage('Push deployment file to Git'){
+            steps{
+                script{
+                    sh """
+                        git config --global user.name "yogeshk04"
+                        git config --global user.email "yogeshk04@gmail.com"
+                        git add deployment.yaml
+                        git commit -m "Updated image version in deployment.yaml file"                        
+                    """
+                    withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]) {
+                    sh "git push https://github.com/yogeshk04/argocd-project.git master"
+                    }
+                }
+            }
+        }
     }
 }
